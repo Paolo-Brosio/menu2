@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Digitale - 29 Pagine</title>
+    <style>
+        /* Stile di base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('sfondo.jpg') center center / cover no-repeat;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            width: 90%;
+            height: 80%;
+            position: relative;
+        }
+        .page {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .page img {
+            width: 100%;
+            height: auto;
+        }
+        .hidden {
+            display: none;
+        }
+        .buttons {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+        .button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        .button img {
+            width: 90px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="menuContainer">
+    <!-- Creiamo le pagine dinamicamente tramite JavaScript -->
+</div>
+
+<div class="buttons">
+    <button class="button" onclick="prevPage()"><img src="frecciasx.png" alt="Indietro"></button>
+    <button class="button" onclick="nextPage()"><img src="frecciadx.png" alt="Avanti"></button>
+</div>
+
+<script>
+    const totalPages = 29; // Numero totale di pagine
+    let currentPage = 0; // Pagina iniziale
+    const container = document.getElementById("menuContainer");
+
+    // Funzione per creare le pagine
+    function createPages() {
+        for (let i = 0; i <= totalPages; i++) {
+            const pageDiv = document.createElement("div");
+            pageDiv.classList.add("page", "hidden");
+            pageDiv.id = `page${i}`;
+
+            const img = document.createElement("img");
+            img.src = i === 0 ? `${i}.png` : `${i}.jpg`; // Rimuove "pagina" dal nome
+            img.alt = `Pagina ${i}`;
+            
+            pageDiv.appendChild(img);
+            container.appendChild(pageDiv);
+        }
+    }
+
+    createPages(); // Creazione delle pagine
+
+    const pages = document.querySelectorAll('.page'); // Seleziona tutte le pagine
+
+    function updatePages() {
+        pages.forEach(page => page.classList.add('hidden')); // Nascondi tutte le pagine
+
+        const leftPage = currentPage * 2;
+        const rightPage = leftPage + 1;
+
+        if (leftPage < pages.length) {
+            pages[leftPage].classList.remove('hidden'); // Mostra pagina sinistra
+        }
+        if (rightPage < pages.length) {
+            pages[rightPage].classList.remove('hidden'); // Mostra pagina destra
+        }
+    }
+
+    function nextPage() {
+        if (currentPage < Math.floor(totalPages / 2)) {
+            currentPage++;
+            updatePages();
+        }
+    }
+
+    function prevPage() {
+        if (currentPage > 0) {
+            currentPage--;
+            updatePages();
+        }
+    }
+
+    // Inizializza mostrando la prima coppia di pagine
+    updatePages();
+</script>
+
+</body>
+</html>
